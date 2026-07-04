@@ -67,7 +67,7 @@ const PROJECTS = [
       uk: "Memory Islands: Brain Trainer — це захоплива карткова гра та мобільний тренажер для мозку, який перетворює класичне покращення пам'яті та реакції на цікаву пригоду.",
     },
     tags: ["Unity", "C#"],
-    video: "https://www.youtube.com/shorts/EkoJNZdBOko",
+    video: "https://youtube.com/shorts/EkoJNZdBOko",
     images: ["images/mi/mi_1.png", "images/mi/mi_2.png", "images/mi/mi_3.png", "images/mi/mi_4.png", "images/mi/mi_5.png", "images/mi/mi_6.png", "images/mi/mi_7.png"],
     demo: "https://play.google.com/store/apps/details?id=com.GameStageStudio.MemoryIslands",
     repo: "",
@@ -124,7 +124,7 @@ const PROJECTS = [
     tags: ["Android Studio", "Flutter", "Kotlin"],
     video: "",
     images: ["images/ee/EE2.jpg", "images/ee/EE3.jpg", "images/ee/EE4.jpg", "images/ee/EE1.jpg", "images/ee/EE5.jpg"],
-    demo: "",
+    demo: "buy.html",
     repo: "",
   },
 ];

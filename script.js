@@ -21,9 +21,27 @@ const TRANSLATIONS = {
   en: {
     nav_home: "Home",
     nav_contact: "Contact",
-    hero_lead: "Games, apps, and web projects — all in one place.",
+    hero_tagline: "Games · Apps · Web",
+    hero_title: "We build digital products\nthat people actually use.",
+    hero_lead: "From polished mobile games to cross-platform apps — clean code, smooth mechanics, intuitive UI. Open for freelance & contract work.",
+    hero_cta_text: "Have a project in mind? Let's bring it to life.",
+    service_game_title: "Game Dev",
+    service_game_desc: "Dynamic mobile games with engaging mechanics, physics, and custom optimization.",
+    service_app_title: "App Dev",
+    service_app_desc: "Clean, functional mobile and cross-platform apps tailored to your business needs.",
+    service_cycle_title: "Full-Cycle",
+    service_cycle_desc: "From database structure and core logic to UI styling and app store deployment.",
+    buy_eyebrow: "Purchase",
+    buy_title: "Buy an App",
+    buy_lead: "Select the app you want to purchase, fill in your details, and I'll get back to you with payment instructions.",
+    buy_select_note: "← Select an app above before submitting.",
+    buy_submit: "Send Request",
+    buy_message_placeholder: "Any questions or notes about your purchase...",
+    buy_no_apps: "No apps available for purchase yet.",
+    label_optional: "(optional)",
     cta_projects: "View projects",
     cta_contact: "Get in touch",
+    cta_contact_us: "Contact us",
     projects_title: "Projects",
     filter_all: "All",
     empty_state: "No projects in this category yet.",
@@ -51,13 +69,33 @@ const TRANSLATIONS = {
     action_other: "View",
     action_default: "Demo",
     code_label: "Code",
+    buy_notice_build: "You are purchasing the latest build of the app (APK for Android or IPA for iOS) — not the source code.",
+    buy_notice_source: "If you're interested in purchasing the full project with source code, the price is negotiable — feel free to reach out.",
   },
   uk: {
     nav_home: "Головна",
     nav_contact: "Контакти",
-    hero_lead: "Ігри, застосунки та вебпроєкти — зібрані в одному місці.",
+    hero_tagline: "Ігри · Застосунки · Веб",
+    hero_title: "Ми створюємо цифрові продукти,\nякими справді користуються.",
+    hero_lead: "Від мобільних ігор до кросплатформних застосунків — чистий код, плавна механіка, інтуїтивний UI. Відкритий до фрілансу та контрактної роботи.",
+    hero_cta_text: "Є ідея проєкту? Давайте її реалізуємо.",
+    service_game_title: "Розробка ігор",
+    service_game_desc: "Динамічні мобільні ігри із захопливою механікою, фізикою та кастомною оптимізацією.",
+    service_app_title: "Розробка застосунків",
+    service_app_desc: "Чисті, функціональні мобільні та кросплатформні застосунки під ваші бізнес-потреби.",
+    service_cycle_title: "Повний цикл",
+    service_cycle_desc: "Від структури БД та логіки до UI та публікації у App Store / Google Play.",
+    buy_eyebrow: "Придбання",
+    buy_title: "Купити застосунок",
+    buy_lead: "Оберіть застосунок, заповніть дані — я зв'яжусь із вами та надішлю інструкції для оплати.",
+    buy_select_note: "← Оберіть застосунок вище перед надсиланням.",
+    buy_submit: "Надіслати запит",
+    buy_message_placeholder: "Запитання або побажання щодо покупки...",
+    buy_no_apps: "Поки немає застосунків для продажу.",
+    label_optional: "(необов'язково)",
     cta_projects: "Переглянути проєкти",
     cta_contact: "Зв'язатися",
+    cta_contact_us: "Написати нам",
     projects_title: "Проєкти",
     filter_all: "Усі",
     empty_state: "У цій категорії поки немає проєктів.",
@@ -85,6 +123,8 @@ const TRANSLATIONS = {
     action_other: "Переглянути",
     action_default: "Демо",
     code_label: "Код",
+    buy_notice_build: "Ви купуєте останній білд застосунку (APK для Android або IPA для iOS) — не вихідний код.",  
+    buy_notice_source: "Якщо вас цікавить придбання повного проєкту з вихідним кодом — ціна договірна, зв'яжіться зі мною.",
   },
 };
 
@@ -101,9 +141,26 @@ function applyStaticTranslations() {
   document.documentElement.lang = getLang();
 
   document.querySelectorAll('[data-i18n]').forEach((el) => {
-    el.textContent = t(el.getAttribute('data-i18n'));
+    const val = t(el.getAttribute('data-i18n'));
+    if (val.includes('\n')) {
+      el.innerHTML = val.split('\n').join('<br>');
+    } else {
+      el.textContent = val;
+    }
   });
 
+  const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+  document.querySelectorAll('.topbar__cta .btn').forEach(btn => {
+    const href = (btn.getAttribute('href') || '').split('/').pop();
+    if (href === currentPage) {
+      btn.classList.remove('btn--ghost');
+      btn.classList.add('btn--primary');
+    } else {
+      btn.classList.remove('btn--primary');
+      btn.classList.add('btn--ghost');
+    }
+  });
+  
   document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
     el.setAttribute('placeholder', t(el.getAttribute('data-i18n-placeholder')));
   });
@@ -227,6 +284,61 @@ document.querySelectorAll('.lang-switch button').forEach((btn) => {
   } else {
     step();
   }
+})();
+
+/* ==========================================================
+   CURSOR TRAIL — thin red trail following the mouse
+   (cursor itself stays visible; this draws just behind it)
+   ========================================================== */
+(function initCursorTrail() {
+  const canvas = document.getElementById('trail-canvas');
+  if (!canvas) return;
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReducedMotion) return; // respect reduced-motion preference — skip the effect entirely
+
+  const ctx = canvas.getContext('2d');
+  let width, height;
+
+  function resize() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const LIFETIME = 260; // ms a trail point stays visible before fully fading
+  let points = []; // { x, y, t }
+
+  window.addEventListener('pointermove', (e) => {
+    points.push({ x: e.clientX, y: e.clientY, t: performance.now() });
+  });
+
+  function draw() {
+    const now = performance.now();
+    while (points.length && now - points[0].t > LIFETIME) points.shift();
+
+    ctx.clearRect(0, 0, width, height);
+
+    for (let i = 1; i < points.length; i++) {
+      const p0 = points[i - 1];
+      const p1 = points[i];
+      const age = now - p1.t;
+      const life = Math.max(0, 1 - age / LIFETIME); // 1 = fresh, 0 = expired
+
+      ctx.beginPath();
+      ctx.moveTo(p0.x, p0.y);
+      ctx.lineTo(p1.x, p1.y);
+      ctx.strokeStyle = `rgba(230, 57, 74, ${life * 0.65})`;
+      ctx.lineWidth = Math.max(0.6, life * 2.6);
+      ctx.lineCap = 'round';
+      ctx.stroke();
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  requestAnimationFrame(draw);
 })();
 
 /* ==========================================================
@@ -400,7 +512,19 @@ function isYouTubeShorts(url) {
       p.category === "apps" && p.price
         ? `${actionLabel(p.category)} $${p.price}`
         : actionLabel(p.category);
-      
+
+      // If the "Buy" button points to buy.html, tag it with ?app=<title>
+      // so that page can auto-select this exact app and hide the rest.
+      const demoHref = (() => {
+        if (!p.demo) return '#';
+        const path = p.demo.split('?')[0].split('/').pop();
+        if (path === 'buy.html') {
+          const sep = p.demo.includes('?') ? '&' : '?';
+          return `${p.demo}${sep}app=${encodeURIComponent(p.title)}`;
+        }
+        return p.demo;
+      })();
+
       card.innerHTML = `
         ${mediaHtml}
         <div class="project-card__body">
@@ -409,7 +533,7 @@ function isYouTubeShorts(url) {
           <p></p>
           <div class="tags">${p.tags.map((tag) => `<span class="tag">${tag}</span>`).join('')}</div>
           <div class="project-card__links">
-            <a class="btn btn--primary btn--small" href="${p.demo || '#'}" target="_blank" rel="noopener">${buttonText}</a>
+            <a class="btn btn--primary btn--small" href="${demoHref}" target="_blank" rel="noopener">${buttonText}</a>
             ${hasRepo ? `<a class="btn btn--ghost btn--small" href="${p.repo}" target="_blank" rel="noopener">${t('code_label')}</a>` : ''}
           </div>
         </div>
@@ -424,21 +548,28 @@ function isYouTubeShorts(url) {
         wrapper.appendChild(tabStripEl);
 
         // Tab switching logic
-        tabStripEl.querySelectorAll('.media-tab').forEach((tab) => {
-          tab.addEventListener('click', () => {
-            tabStripEl.querySelectorAll('.media-tab').forEach((tb) => tb.classList.remove('media-tab--active'));
-            card.querySelectorAll('.media-panel').forEach((panel) => panel.classList.remove('media-panel--active'));
-            tab.classList.add('media-tab--active');
-            const targetPanel = card.querySelector(`.media-panel[data-panel="${tab.dataset.panel}"]`);
-            targetPanel.classList.add('media-panel--active');
+      tabStripEl.querySelectorAll('.media-tab').forEach((tab) => {
+        tab.addEventListener('click', () => {
+          tabStripEl.querySelectorAll('.media-tab').forEach((tb) => tb.classList.remove('media-tab--active'));
 
-            // Re-initialize carousel position after panel becomes visible
-            if (tab.dataset.panel === 'photos') {
-              const track = card.querySelector('.carousel--infinite');
-              if (track && track._carouselInit) track._carouselInit();
-            }
-          });
+          // Зафіксувати висоту media-body перед перемиканням
+          const mediaBody = card.querySelector('.media-body');
+          if (mediaBody && !mediaBody.style.height) {
+            mediaBody.style.height = mediaBody.offsetHeight + 'px';
+          }
+
+          card.querySelectorAll('.media-panel').forEach((panel) => panel.classList.remove('media-panel--active'));
+          tab.classList.add('media-tab--active');
+          const targetPanel = card.querySelector(`.media-panel[data-panel="${tab.dataset.panel}"]`);
+          targetPanel.classList.add('media-panel--active');
+
+          // Re-initialize carousel position after panel becomes visible
+          if (tab.dataset.panel === 'photos') {
+            const track = card.querySelector('.carousel--infinite');
+            if (track && track._carouselInit) track._carouselInit();
+          }
         });
+      });
       }
       // For portrait: move tabs inside .media-body so they sit above the image column only
 

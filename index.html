@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Project Portfolio</title>
+<title>Sparky GSS</title>
 <meta name="description" content="Portfolio of projects — games, apps, websites.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,31 +13,59 @@
 <body>
 
 <canvas id="bg-canvas" aria-hidden="true"></canvas>
+<canvas id="trail-canvas" aria-hidden="true"></canvas>
 
 <header class="topbar">
   <div class="topbar__dots" aria-hidden="true">
     <span></span><span></span><span></span>
   </div>
-  <nav class="tabs" aria-label="Main navigation">
-    <a class="tab tab--active" href="index.html" data-i18n="nav_home">Home</a>
-    <a class="tab" href="contact.html" data-i18n="nav_contact">Contact</a>
-  </nav>
+
+  <div class="topbar__cta">
+    <a class="btn btn--ghost btn--small" href="index.html" data-i18n="nav_home">Home</a>
+    <a class="btn btn--ghost btn--small" href="contact.html" data-i18n="cta_contact_us">Contact us</a>
+  </div>
+
   <div class="lang-switch" role="group" aria-label="Language">
     <button type="button" data-lang="en">EN</button>
     <button type="button" data-lang="uk">UK</button>
   </div>
-  <button class="menu-toggle" aria-label="Menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
 </header>
-
 <main>
 
-<section class="editor-pane hero">
-  <p class="hero__lead" data-i18n="hero_lead">Games, apps, and web projects — all in one place.</p>
-  <div class="hero__cta">
-    <a class="btn btn--primary" href="#projects" data-i18n="cta_projects">View projects</a>
-    <a class="btn btn--ghost" href="contact.html" data-i18n="cta_contact">Get in touch</a>
+<section class="hero">
+  <div class="hero__content">
+    <p class="hero__tagline" data-i18n="hero_tagline">Games · Apps · Web</p>
+    <h1 class="hero__title" data-i18n="hero_title">We build digital products<br>that people actually use.</h1>
+    <p class="hero__lead" data-i18n="hero_lead">From polished mobile games to cross-platform apps — clean code, smooth mechanics, intuitive UI. Open for freelance &amp; contract work.</p>
+
+    <div class="hero__services">
+      <div class="hero__service">
+        <span class="hero__service-icon">🎮</span>
+        <div>
+          <strong data-i18n="service_game_title">Game Dev</strong>
+          <p data-i18n="service_game_desc">Dynamic mobile games with engaging mechanics, physics, and custom optimization.</p>
+        </div>
+      </div>
+      <div class="hero__service">
+        <span class="hero__service-icon">📱</span>
+        <div>
+          <strong data-i18n="service_app_title">App Dev</strong>
+          <p data-i18n="service_app_desc">Clean, functional mobile and cross-platform apps tailored to your business needs.</p>
+        </div>
+      </div>
+      <div class="hero__service">
+        <span class="hero__service-icon">🔄</span>
+        <div>
+          <strong data-i18n="service_cycle_title">Full-Cycle</strong>
+          <p data-i18n="service_cycle_desc">From database structure and core logic to UI styling and app store deployment.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__bottom">
+      <p class="hero__cta-text" data-i18n="hero_cta_text">Have a project in mind? Let's bring it to life.</p>
+      <a class="btn btn--primary" href="contact.html" data-i18n="cta_contact">Get in touch</a>
+    </div>
   </div>
 </section>
 

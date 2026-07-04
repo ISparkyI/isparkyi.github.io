@@ -13,22 +13,22 @@
 <body>
 
 <canvas id="bg-canvas" aria-hidden="true"></canvas>
+<canvas id="trail-canvas" aria-hidden="true"></canvas>
 
 <header class="topbar">
   <div class="topbar__dots" aria-hidden="true">
     <span></span><span></span><span></span>
   </div>
-  <nav class="tabs" aria-label="Main navigation">
-    <a class="tab" href="index.html" data-i18n="nav_home">Home</a>
-    <a class="tab tab--active" href="contact.html" data-i18n="nav_contact">Contact</a>
-  </nav>
+
+  <div class="topbar__cta">
+    <a class="btn btn--ghost btn--small" href="index.html" data-i18n="nav_home">Home</a>
+    <a class="btn btn--ghost btn--small" href="contact.html" data-i18n="cta_contact_us">Contact us</a>
+  </div>
+
   <div class="lang-switch" role="group" aria-label="Language">
     <button type="button" data-lang="en">EN</button>
     <button type="button" data-lang="uk">UK</button>
   </div>
-  <button class="menu-toggle" aria-label="Menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
 </header>
 
 <main>
@@ -37,14 +37,6 @@
   <h2 class="section__title" data-i18n="contact_title">Let's work together</h2>
   <p class="hero__lead" data-i18n="contact_lead">Fill out the form and I'll get your message by email.</p>
 
-  <!--
-    HOW TO CONNECT EMAIL DELIVERY (free, no backend needed):
-    1. Sign up at https://formspree.io (you can use your GitHub account)
-    2. Create a form (New Form) and set the email you want to receive messages at
-    3. Copy the endpoint, e.g. https://formspree.io/f/xxxxxxxx
-    4. Put it in the "action" attribute of the form below
-    5. Formspree will send a confirmation email to you — confirm it once
-  -->
   <form
     id="contact-form"
     class="contact-form"
