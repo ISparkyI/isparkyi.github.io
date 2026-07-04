@@ -252,6 +252,11 @@ function extractYouTubeId(url) {
   return null;
 }
 
+function isYouTubeShorts(url) {
+  if (!url) return false;
+  return /youtube\.com\/shorts\//i.test(url);
+}
+
 (function initProjects() {
   const grid = document.getElementById('project-grid');
   const filtersEl = document.getElementById('filters');
@@ -593,6 +598,8 @@ function extractYouTubeId(url) {
         };
         img.onerror = () => fill(false, null);
         img.src = firstPhoto;
+      } else if (!firstPhoto && isYouTubeShorts(p.video)) {
+        fill(true, '9 / 16');
       } else {
         fill(false);
       }
