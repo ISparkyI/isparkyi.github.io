@@ -32,6 +32,8 @@
    INFINITE CAROUSEL: If a project has more than 1 image, the photo
    carousel loops infinitely (wraps from last back to first).
    ========================================================== */
+const linkedinIcon = `<svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" style="vertical-align:middle;margin-right:4px"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12ZM7.12 20.45H3.56V9h3.56v11.45Z"/></svg>`;
+
 const PROJECTS = [
   {
     title: "Sprunki: Knockout",
@@ -125,6 +127,61 @@ const PROJECTS = [
     video: "",
     images: ["images/ee/EE2.jpg", "images/ee/EE3.jpg", "images/ee/EE4.jpg", "images/ee/EE1.jpg", "images/ee/EE5.jpg"],
     demo: "buy.html",
+    repo: "",
+  },
+  {
+    title: "Outside — Demo Trailer",
+    category: "Global Game Jam",
+    description: {
+      en: `
+        <p>
+          «Outside» is a dark atmospheric 3D platformer set in a haunting industrial environment.
+          Players take on the role of a small character in a gas mask, awakening in an abandoned
+          factory filled with toxic gas and nightmarish creatures. Created for Global Game Jam 2026.
+        </p>
+
+        <p><strong>Team:</strong></p>
+        <ul class="feature-list">
+          <li><a href="https://www.linkedin.com/in/valeriia-herasymenko" target="_blank" rel="noopener">${linkedinIcon}Riiasme</a> — 2D Artist</li>
+          <li><a href="https://www.linkedin.com/in/kyrylo-broslavskyi-504758333" target="_blank" rel="noopener">${linkedinIcon}Sparky</a> — Full-Stack Game Developer</li>
+          <li><a href="https://www.linkedin.com/in/yurii-kirianchuk/" target="_blank" rel="noopener">${linkedinIcon}Piprock</a> — Full-Stack Game Developer</li>
+          <li><a href="https://ua.linkedin.com/in/kdzpt" target="_blank" rel="noopener">${linkedinIcon}Matt Piccolella</a> — 3D Artist</li>
+        </ul>
+
+        <p>
+          <a href="https://globalgamejam.org/games/2026/outside-3" target="_blank" rel="noopener">
+            🕹️ View on Global Game Jam
+          </a>
+        </p>
+      `,
+
+      uk: `
+        <p>
+          «Outside» — це атмосферний 3D-платформер, дія якого розгортається в моторошному
+          промисловому середовищі. Гравці вживаються в роль маленького персонажа в протигазі,
+          який прокидається на занедбаній фабриці, заповненій токсичним газом і кошмарними
+          істотами. Створено для Global Game Jam 2026.
+        </p>
+
+        <p><strong>Команда:</strong></p>
+        <ul class="feature-list">
+          <li><a href="https://www.linkedin.com/in/valeriia-herasymenko" target="_blank" rel="noopener">${linkedinIcon}Riiasme</a> — 2D Artist</li>
+          <li><a href="https://www.linkedin.com/in/kyrylo-broslavskyi-504758333" target="_blank" rel="noopener">${linkedinIcon}Sparky</a> — Full-Stack Game Developer</li>
+          <li><a href="https://www.linkedin.com/in/yurii-kirianchuk/" target="_blank" rel="noopener">${linkedinIcon}Piprock</a> — Full-Stack Game Developer</li>
+          <li><a href="https://ua.linkedin.com/in/kdzpt" target="_blank" rel="noopener">${linkedinIcon}Matt Piccolella</a> — 3D Artist</li>
+        </ul>
+
+        <p>
+          <a href="https://globalgamejam.org/games/2026/outside-3" target="_blank" rel="noopener">
+            🕹️ View on Global Game Jam
+          </a>
+        </p>
+      `,
+    },
+    tags: ["Unity", "C#"],
+    video: "https://www.youtube.com/watch?v=UPye0zYyfQc",
+    images: [],
+    demo: "https://yurokpy.itch.io/outside",
     repo: "",
   },
 ];
