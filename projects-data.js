@@ -23,6 +23,15 @@
                              Leave "" if not ready yet.
    - repo        (string, optional) — source code link. Leave "" to hide
                              the Code button.
+   - downloads   (string, optional) — the REAL download count, e.g. "100",
+                             "1500", "50000". The site automatically scales
+                             it for display: under 1000 shows as-is ("100
+                             downloads"), thousands become "1K+ downloads" /
+                             "1K+ завантажень", millions become "1M+".
+                             Leave "" to hide the badge entirely.
+   - rating      (string, optional) — a star rating like "4.5". Shown as
+                             its own small badge (★ 4.5) next to downloads.
+                             Leave "" to hide it.
 
    MEDIA TABS: If a project has both images and video, a Photo / Video
    tab strip appears at the top of the card. Photos are shown first.
@@ -47,6 +56,8 @@ const PROJECTS = [
     images: ["images/Play_Market_1.png", "images/Play_Market_2.png", "images/Play_Market_3.png", "images/Play_Market_4.png"],
     demo: "https://play.google.com/store/apps/details?id=com.GameStageStudio.SprunkiKnockout",
     repo: "",
+    downloads: "10000",
+    rating: "4.75",
   },
   {
     title: "Sprunki Phase: Minigame",
@@ -60,6 +71,8 @@ const PROJECTS = [
     images: ["images/Play_1.png", "images/Play_2.png", "images/Play_3.png"],
     demo: "https://play.google.com/store/apps/details?id=com.GameStageStudio.SprunkiMinigames",
     repo: "",
+    downloads: "1000",
+    rating: "5",
   },
   {
     title: "Memory Islands: Brain Trainer",
@@ -73,6 +86,8 @@ const PROJECTS = [
     images: ["images/mi/mi_1.png", "images/mi/mi_2.png", "images/mi/mi_3.png", "images/mi/mi_4.png", "images/mi/mi_5.png", "images/mi/mi_6.png", "images/mi/mi_7.png"],
     demo: "https://play.google.com/store/apps/details?id=com.GameStageStudio.MemoryIslands",
     repo: "",
+    downloads: "200",
+    rating: "5",
   },
   {
     title: "Easy Estimate",
@@ -128,6 +143,8 @@ const PROJECTS = [
     images: ["images/ee/EE2.jpg", "images/ee/EE3.jpg", "images/ee/EE4.jpg", "images/ee/EE1.jpg", "images/ee/EE5.jpg"],
     demo: "buy.html",
     repo: "",
+    downloads: "",
+    rating: "",
   },
   {
     title: "Outside — Demo Trailer",
@@ -183,5 +200,7 @@ const PROJECTS = [
     images: [],
     demo: "https://yurokpy.itch.io/outside",
     repo: "",
+    downloads: "",
+    rating: "5",
   },
 ];

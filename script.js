@@ -70,6 +70,7 @@ const TRANSLATIONS = {
     action_other: "View",
     action_default: "Demo",
     code_label: "Code",
+    downloads_label: "downloads",
     buy_notice_build: "You are purchasing the latest build of the app (APK for Android or IPA for iOS) — not the source code.",
     buy_notice_source: "If you're interested in purchasing the full project with source code, the price is negotiable — feel free to reach out.",
   },
@@ -125,6 +126,7 @@ const TRANSLATIONS = {
     action_other: "Переглянути",
     action_default: "Демо",
     code_label: "Код",
+    downloads_label: "завантажень",
     buy_notice_build: "Ви купуєте останній білд застосунку (APK для Android або IPA для iOS) — не вихідний код.",  
     buy_notice_source: "Якщо вас цікавить придбання повного проєкту з вихідним кодом — ціна договірна, зв'яжіться зі мною.",
   },
@@ -389,6 +391,17 @@ function isYouTubeShorts(url) {
   return /youtube\.com\/shorts\//i.test(url);
 }
 
+// Takes the raw download count (e.g. "100", "1500", "50000") and formats
+// it for display: small numbers shown as-is, thousands as "1K+", "50K+",
+// millions as "1M+".
+function formatDownloads(raw) {
+  const n = parseInt(raw, 10);
+  if (isNaN(n) || n <= 0) return null;
+  if (n >= 1000000) return `${Math.floor(n / 1000000)}M+`;
+  if (n >= 1000) return `${Math.floor(n / 1000)}K+`;
+  return `${n}`;
+}
+
 (function initProjects() {
   const grid = document.getElementById('project-grid');
   const filtersEl = document.getElementById('filters');
@@ -553,8 +566,14 @@ function isYouTubeShorts(url) {
           <p></p>
           <div class="tags">${p.tags.map((tag) => `<span class="tag">${tag}</span>`).join('')}</div>
           <div class="project-card__links">
-            <a class="btn btn--primary btn--small" href="${demoHref}" target="_blank" rel="noopener">${buttonText}</a>
-            ${hasRepo ? `<a class="btn btn--ghost btn--small" href="${p.repo}" target="_blank" rel="noopener">${t('code_label')}</a>` : ''}
+            <div class="project-card__actions">
+              <a class="btn btn--primary btn--small" href="${demoHref}" target="_blank" rel="noopener">${buttonText}</a>
+              ${hasRepo ? `<a class="btn btn--ghost btn--small" href="${p.repo}" target="_blank" rel="noopener">${t('code_label')}</a>` : ''}
+            </div>
+            <div class="project-card__badges">
+              ${p.rating ? `<span class="rating-badge"><span class="rating-badge__star">★</span>${p.rating}</span>` : ''}
+              ${formatDownloads(p.downloads) ? `<span class="downloads-badge">${formatDownloads(p.downloads)} ${t('downloads_label')}</span>` : ''}
+            </div>
           </div>
         </div>
       `;
