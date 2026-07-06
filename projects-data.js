@@ -92,7 +92,7 @@ const PROJECTS = [
   {
     title: "Easy Estimate",
     category: "apps",
-    price:9.99,
+    price:9.89,
     description: {
       en: `
     <ul class="feature-list">
@@ -141,7 +141,7 @@ const PROJECTS = [
     tags: ["Android Studio", "Flutter", "Kotlin"],
     video: "",
     images: ["images/ee/EE2.jpg", "images/ee/EE3.jpg", "images/ee/EE4.jpg", "images/ee/EE1.jpg", "images/ee/EE5.jpg"],
-    demo: "buy.html",
+    demo: "https://sparkywww.itch.io/easy-estimate",
     repo: "",
     downloads: "",
     rating: "",

@@ -2,13 +2,45 @@
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-// Mobile menu
-const menuToggle = document.querySelector('.menu-toggle');
-const tabsNav = document.querySelector('.tabs');
-if (menuToggle && tabsNav) {
+// Mobile menu (hamburger → dropdown with page links)
+const menuToggle = document.getElementById('menu-toggle');
+const mobileMenu = document.getElementById('mobile-menu');
+if (menuToggle && mobileMenu) {
+  const closeMenu = () => {
+    mobileMenu.hidden = true;
+    menuToggle.classList.remove('is-open');
+    menuToggle.setAttribute('aria-expanded', 'false');
+  };
+  const openMenu = () => {
+    mobileMenu.hidden = false;
+    menuToggle.classList.add('is-open');
+    menuToggle.setAttribute('aria-expanded', 'true');
+  };
+
   menuToggle.addEventListener('click', () => {
-    const isOpen = tabsNav.classList.toggle('tabs--open');
-    menuToggle.setAttribute('aria-expanded', String(isOpen));
+    if (mobileMenu.hidden) openMenu(); else closeMenu();
+  });
+
+  // Close when a link inside the menu is clicked
+  mobileMenu.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Close on outside click
+  document.addEventListener('click', (e) => {
+    if (!mobileMenu.hidden && !mobileMenu.contains(e.target) && e.target !== menuToggle && !menuToggle.contains(e.target)) {
+      closeMenu();
+    }
+  });
+
+  // Close on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !mobileMenu.hidden) closeMenu();
+  });
+
+  // Close automatically if the viewport grows back to desktop size
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 640 && !mobileMenu.hidden) closeMenu();
   });
 }
 
@@ -69,10 +101,14 @@ const TRANSLATIONS = {
     action_web: "Visit",
     action_other: "View",
     action_default: "Demo",
+    action_crypto: "Crypto",
     code_label: "Code",
     downloads_label: "downloads",
     buy_notice_build: "You are purchasing the latest build of the app (APK for Android or IPA for iOS) — not the source code.",
     buy_notice_source: "If you're interested in purchasing the full project with source code, the price is negotiable — feel free to reach out.",
+    buy_crypto_tooltip: "Buy with crypto (USDT)",
+    buy_crypto_notice: "You're requesting a crypto (USDT) purchase. Fill in the form and I'll reach out with wallet details and the exact USDT amount.",
+    buy_crypto_price_suffix: "in USDT",
   },
   ua: {
     nav_home: "Головна",
@@ -125,10 +161,14 @@ const TRANSLATIONS = {
     action_web: "Відкрити",
     action_other: "Переглянути",
     action_default: "Демо",
+    action_crypto: "Крипта",
     code_label: "Код",
     downloads_label: "завантажень",
     buy_notice_build: "Ви купуєте останній білд застосунку (APK для Android або IPA для iOS) — не вихідний код.",  
     buy_notice_source: "Якщо вас цікавить придбання повного проєкту з вихідним кодом — ціна договірна, зв'яжіться зі мною.",
+    buy_crypto_tooltip: "Купити за криптовалюту (USDT)",
+    buy_crypto_notice: "Ви оформлюєте покупку за криптовалюту (USDT). Заповніть форму — я зв'яжусь із вами й надішлю реквізити гаманця та точну суму в USDT.",
+    buy_crypto_price_suffix: "в USDT",
   },
 };
 
@@ -154,7 +194,7 @@ function applyStaticTranslations() {
   });
 
   const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-  document.querySelectorAll('.topbar__cta .btn').forEach(btn => {
+  document.querySelectorAll('.topbar__cta .btn, .mobile-menu .btn').forEach(btn => {
     const href = (btn.getAttribute('href') || '').split('/').pop();
     if (href === currentPage) {
       btn.classList.remove('btn--ghost');
@@ -558,6 +598,14 @@ function formatDownloads(raw) {
         return p.demo;
       })();
 
+      // Apps with a price also get a "pay with crypto" button that always
+      // routes through buy.html (locked to this app), regardless of where
+      // the main demoHref points (e.g. straight to an itch.io page).
+      const isPurchasableApp = p.category === 'apps' && p.price;
+      const cryptoHref = isPurchasableApp
+        ? `buy.html?app=${encodeURIComponent(p.title)}&method=crypto`
+        : null;
+
       card.innerHTML = `
         ${mediaHtml}
         <div class="project-card__body">
@@ -568,6 +616,7 @@ function formatDownloads(raw) {
           <div class="project-card__links">
             <div class="project-card__actions">
               <a class="btn btn--primary btn--small" href="${demoHref}" target="_blank" rel="noopener">${buttonText}</a>
+              ${cryptoHref ? `<a class="btn btn--crypto btn--small" href="${cryptoHref}" target="_blank" rel="noopener" title="${t('buy_crypto_tooltip')}">₮ ${t('action_crypto')} $${p.price}</a>` : ''}
               ${hasRepo ? `<a class="btn btn--ghost btn--small" href="${p.repo}" target="_blank" rel="noopener">${t('code_label')}</a>` : ''}
             </div>
             <div class="project-card__badges">

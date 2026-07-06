@@ -21,14 +21,27 @@
 
   // If we arrived via a project card's "Buy" button (buy.html?app=Title),
   // lock the picker to that one app and don't show the others at all.
-  const requestedTitle = new URLSearchParams(window.location.search).get('app');
+  const params = new URLSearchParams(window.location.search);
+  const requestedTitle = params.get('app');
+  const isCrypto = params.get('method') === 'crypto';
   const preselected = requestedTitle ? apps.find(p => p.title === requestedTitle) : null;
+
+  const cryptoNotice = document.getElementById('crypto-notice');
+  if (isCrypto && cryptoNotice) cryptoNotice.hidden = false;
 
   let selectedTitle = preselected ? preselected.title : '';
 
+  function priceLabel(p) {
+    return isCrypto
+      ? `$${p.price.toFixed(2)} (${t('buy_crypto_price_suffix')})`
+      : `$${p.price.toFixed(2)}`;
+  }
+
   function selectApp(p) {
     selectedTitle = p.title;
-    hiddenApp.value = `${p.title} — $${p.price.toFixed(2)}`;
+    hiddenApp.value = isCrypto
+      ? `${p.title} — $${p.price.toFixed(2)} — USDT / crypto`
+      : `${p.title} — $${p.price.toFixed(2)}`;
     submitBtn.disabled = false;
     noteEl.hidden = true;
   }
@@ -42,7 +55,7 @@
       card.className = 'app-pick-card is-selected app-pick-card--locked';
       card.innerHTML = `
         <span class="app-pick-card__name">${preselected.title}</span>
-        <span class="app-pick-card__price">$${preselected.price.toFixed(2)}</span>
+        <span class="app-pick-card__price">${priceLabel(preselected)}</span>
       `;
       picker.appendChild(card);
       return;
@@ -56,7 +69,7 @@
       card.className = 'app-pick-card' + (selectedTitle === p.title ? ' is-selected' : '');
       card.innerHTML = `
         <span class="app-pick-card__name">${p.title}</span>
-        <span class="app-pick-card__price">$${p.price.toFixed(2)}</span>
+        <span class="app-pick-card__price">${priceLabel(p)}</span>
       `;
       card.addEventListener('click', () => {
         selectApp(p);
@@ -72,12 +85,6 @@
   // Form submit
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
-
-    if (form.action.includes('https://formspree.io/f/xkolkekk')) {
-      status.textContent = t('form_not_connected');
-      status.className = 'form-status is-error';
-      return;
-    }
 
     submitBtn.disabled = true;
     submitBtn.textContent = t('sending');
